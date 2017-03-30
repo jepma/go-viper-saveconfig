@@ -1,17 +1,27 @@
-// Copyright © 2017 Marcel Jepma <mjepma@xebia.com>
-// This file is part of release-support.
+// Copyright (c) 2017 Xebia Nederland B.V. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//   http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+// Package vipersaveconfig is an addition to the Viper library
 
 package vipersaveconfig
 
 import (
-	"bufio"
 	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
 
-	"github.com/BurntSushi/toml"
-	"github.com/golang/glog"
 	"github.com/spf13/viper"
 	"gopkg.in/yaml.v2"
 )
@@ -69,23 +79,15 @@ func SaveConfig(v viper.Viper) error {
 
 		b, err := json.MarshalIndent(v.AllSettings(), "", "    ")
 		if err != nil {
-			glog.Fatal("Panic while encoding into JSON format.")
+			return err
 		}
 		f.WriteString(string(b))
-
-	case "toml":
-
-		w := bufio.NewWriter(f)
-		if err := toml.NewEncoder(w).Encode(v.AllSettings()); err != nil {
-			glog.Fatal("Panic while encoding into TOML format.")
-		}
-		w.Flush()
 
 	case "yaml", "yml":
 
 		b, err := yaml.Marshal(v.AllSettings())
 		if err != nil {
-			glog.Fatal("Panic while encoding into YAML format.")
+			return err
 		}
 		f.WriteString(string(b))
 	}
