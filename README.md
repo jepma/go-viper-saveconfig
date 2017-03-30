@@ -4,7 +4,7 @@ For now, the Viper SaveConfig function is not embedded. This snippet will take c
 
 ## Author
 
-In this snippet, parts of the original  code from Steve Francia has been used.
+In this snippet, parts of the original  code from Steve Francia have been used.
 
 ## Filetypes
 
